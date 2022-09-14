@@ -4,21 +4,30 @@ import org.hibernate.annotations.Formula;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import javax.annotation.Nullable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Company extends AbstractEntity {
+    @Id
     @NotBlank
+    @Column(name = "companyid")
+    private Long id;
+
+    @NotBlank
+    @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "company")
     @Nullable
     private List<Contact> employees = new LinkedList<>();
 
-    @Formula("(select count(c.id) from Contact c where c.company_id = id)")
+    @Formula("(select count(*) from contact)")
     private int employeeCount;
 
     public int getEmployeeCount(){
@@ -39,5 +48,12 @@ public class Company extends AbstractEntity {
 
     public void setEmployees(List<Contact> employees) {
         this.employees = employees;
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 }

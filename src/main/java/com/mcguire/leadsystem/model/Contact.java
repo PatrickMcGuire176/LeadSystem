@@ -2,10 +2,9 @@ package com.mcguire.leadsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Columns;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -18,22 +17,29 @@ import java.util.UUID;
 @Entity
 public class Contact extends AbstractEntity {
     //Contact fields
-    private UUID id;
-    private String name;
+    @Id
     @NotEmpty
+    @Column(name = "contactid")
+    private Long id;
+//    private String name;
+    @NotEmpty
+    @Column(name = "firstname")
     private String firstName = "";
     @NotEmpty
+    @Column(name = "lastname")
     private String lastName = "";
     @ManyToOne
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "companyid")
     @NotNull
     @JsonIgnoreProperties({"employees"})
     private Company company;
     @Email
     @NotEmpty
+    @Column(name = "email")
     private String email = "";
     @NotNull
     @ManyToOne
+    @JoinColumn(name = "statusid")
     private Status status;
 
     //Default Constructor
@@ -41,23 +47,23 @@ public class Contact extends AbstractEntity {
     }
 
     //Constructor to populate basic data
-    public Contact(@JsonProperty("id") UUID id,
-                   @JsonProperty("name") String name) {
+    public Contact(@JsonProperty("id") Long id)
+                   //,@JsonProperty("name") String name)
+                    {
         this.id = id;
-        this.name = name;
+//        this.name = name;
     }
-
-
-
 
     @Override
     public String toString() {
         return firstName + " " + lastName;
     }
 
+
     public String getFirstName() {
         return firstName;
     }
+
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -95,7 +101,7 @@ public class Contact extends AbstractEntity {
         this.email = email;
     }
 
-    public UUID getID() {
+    public Long getID() {
         return id;
     }
 }

@@ -30,15 +30,15 @@ public class ContactService {
         return contactDao.selectAllContacts();
     }
 
-    public Optional<Contact> getContactByID(UUID id){
+    public Optional<Contact> getContactByID(Long id){
         return contactDao.selectContactById(id);
     }
 
-    public int deleteContact(UUID id){
+    public int deleteContact(Long id){
         return contactDao.deleteContactById(id);
     }
 
-    public int updateContact(UUID id, Contact newContact){
+    public int updateContact(Long id, Contact newContact){
         return contactDao.updateContactById(id, newContact);
     }
 

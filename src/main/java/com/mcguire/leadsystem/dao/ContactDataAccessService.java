@@ -5,12 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 @Repository("test")
 public class ContactDataAccessService implements ContactDao {
     @Override
-    public int insertContact(UUID id, Contact contact) {
+    public int insertContact(Long id, Contact contact) {
         return 0;
     }
 
@@ -21,21 +22,23 @@ public class ContactDataAccessService implements ContactDao {
 
     @Override
     public List<Contact> selectAllContacts() {
-        return List.of(new Contact(UUID.randomUUID(), "FROM POSTGRES DB"));
+        return List.of(new Contact(new Random().nextLong()
+                //, "FROM POSTGRES DB")
+        ));
     }
 
     @Override
-    public Optional<Contact> selectContactById(UUID id) {
+    public Optional<Contact> selectContactById(Long id) {
         return Optional.empty();
     }
 
     @Override
-    public int deleteContactById(UUID id) {
+    public int deleteContactById(Long id) {
         return 0;
     }
 
     @Override
-    public int updateContactById(UUID id, Contact contact) {
+    public int updateContactById(Long id, Contact contact) {
         return 0;
     }
 }

@@ -18,8 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @SpringBootApplication()
-@NoTheme
-//@Theme(value = "flowcrmtutorial")
+@Theme(value = "flowcrmtutorial")
 @PWA(name = "Vaadin CRM",
         shortName = "CRM")
 @NpmPackage(value = "line-awesome", version = "1.3.0")
@@ -34,21 +33,19 @@ public class LeadSystemApplication extends SpringBootServletInitializer implemen
 
     @Override
     public void run(String... args) throws Exception {
-//
-//        String sql = "SELECT * FROM Customer c";
-////        System.out.println(jdbcTemplate.execute(sql));
-//        jdbcTemplate.queryForObject(sql, new RowMapper<Contact>() {
-//            public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
-//                while (rs.next()) {
-//                    System.out.println(rs.getString(1));
-//                }
-////                Contact student = new Contact();
-////                System.out.println(rs.getString(1)):
-////                System.out.println(rs.get);
-////                student.setName(rs.getString(1) + rs.getString(2));
-////                System.out.println(student.getName());
-//                return null;
-//            }
-//        });
+
+        String sql = "SELECT * FROM contact c";
+        jdbcTemplate.queryForObject(sql, new RowMapper<Contact>() {
+            public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
+                System.out.println(rs.getString(1));
+
+//                Contact student = new Contact();
+//                System.out.println(rs.getString(1)):
+//                System.out.println(rs.get);
+//                student.setName(rs.getString(1) + rs.getString(2));
+//                System.out.println(student.getName());
+                return null;
+            }
+        });
     }
 }

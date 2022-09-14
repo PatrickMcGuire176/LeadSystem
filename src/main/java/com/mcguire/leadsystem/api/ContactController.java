@@ -30,18 +30,18 @@ public class ContactController {
     }
 
     @GetMapping(path="{id}")
-    public Contact getContactById(@PathVariable("id") UUID id){
+    public Contact getContactById(@PathVariable("id") Long id){
         return contactService.getContactByID(id)
                 .orElse(null);
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteContactById(@PathVariable("id") UUID id){
+    public void deleteContactById(@PathVariable("id") Long id){
         contactService.deleteContact(id);
     }
 
     @PutMapping(path = "{id}")
-    public void updateContact(@PathVariable("id") UUID id, @NonNull @RequestBody Contact contactToUpdate){
+    public void updateContact(@PathVariable("id") Long id, @NonNull @RequestBody Contact contactToUpdate){
         contactService.updateContact(id,contactToUpdate);
     }
 }

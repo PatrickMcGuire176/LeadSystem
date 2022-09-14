@@ -5,16 +5,17 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 public interface ContactDao {
-    int insertContact(UUID id, Contact contact);
+    int insertContact(Long id, Contact contact);
     default int insertContact(Contact contact){
-        UUID id = UUID.randomUUID();
+        Long id = new Random().nextLong();
         return this.insertContact(id, contact);
     }
 
     List<Contact> selectAllContacts();
-    Optional<Contact> selectContactById(UUID id);
-    int deleteContactById(UUID id);
-    int updateContactById(UUID id, Contact contact);
+    Optional<Contact> selectContactById(Long id);
+    int deleteContactById(Long id);
+    int updateContactById(Long id, Contact contact);
 }
