@@ -6,6 +6,7 @@ import org.hibernate.annotations.Columns;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
@@ -15,17 +16,19 @@ import java.util.UUID;
  */
 
 @Entity
+//@Table(name = "Contact")
 public class Contact extends AbstractEntity {
     //Contact fields
     @Id
-    @NotEmpty
+    @NotNull
     @Column(name = "contactid")
+//    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 //    private String name;
-    @NotEmpty
+    @NotBlank
     @Column(name = "firstname")
     private String firstName = "";
-    @NotEmpty
+    @NotBlank
     @Column(name = "lastname")
     private String lastName = "";
     @ManyToOne
@@ -34,7 +37,7 @@ public class Contact extends AbstractEntity {
     @JsonIgnoreProperties({"employees"})
     private Company company;
     @Email
-    @NotEmpty
+    @NotBlank
     @Column(name = "email")
     private String email = "";
     @NotNull
@@ -51,7 +54,6 @@ public class Contact extends AbstractEntity {
                    //,@JsonProperty("name") String name)
                     {
         this.id = id;
-//        this.name = name;
     }
 
     @Override

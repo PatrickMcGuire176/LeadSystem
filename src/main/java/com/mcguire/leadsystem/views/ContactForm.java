@@ -79,7 +79,6 @@ public class ContactForm extends FormLayout {
         try{
             binder.writeBean(contact);
             fireEvent(new SaveEvent(this,contact));
-
         } catch (ValidationException e){
             e.printStackTrace();
         }

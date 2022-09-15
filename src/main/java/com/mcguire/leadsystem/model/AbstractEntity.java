@@ -2,6 +2,7 @@ package com.mcguire.leadsystem.model;
 
 import java.util.UUID;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import org.hibernate.annotations.Type;
@@ -10,8 +11,8 @@ import org.hibernate.annotations.Type;
 public abstract class AbstractEntity {
 
     @Id
-    @GeneratedValue
-    //@Type(type = "uuid-char")
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Type(type = "long")
     private Long id;
 
     public Long getId() {
@@ -20,6 +21,10 @@ public abstract class AbstractEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void testSuperMethod(){
+        System.out.println("hi");
     }
 
     @Override

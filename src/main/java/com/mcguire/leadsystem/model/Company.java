@@ -11,11 +11,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Company extends AbstractEntity {
     @Id
-    @NotBlank
+    @NotNull
     @Column(name = "companyid")
     private Long id;
 
