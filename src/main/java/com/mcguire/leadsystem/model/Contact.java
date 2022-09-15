@@ -2,29 +2,27 @@ package com.mcguire.leadsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.Columns;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
- The contact data model which stores data about the contact
+ * The contact data model which stores data about the contact
  */
 
 @Entity
 //@Table(name = "Contact")
 public class Contact extends AbstractEntity {
     //Contact fields
-    @Id
-    @NotNull
+
+    //@NotNull
     @Column(name = "contactid")
-//    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-//    private String name;
+    //    private String name;
+
     @NotBlank
     @Column(name = "firstname")
     private String firstName = "";
@@ -50,9 +48,9 @@ public class Contact extends AbstractEntity {
     }
 
     //Constructor to populate basic data
-    public Contact(@JsonProperty("id") Long id)
-                   //,@JsonProperty("name") String name)
-                    {
+    public Contact(Long id)
+    //,@JsonProperty("name") String name)
+    {
         this.id = id;
     }
 

@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.Type;
 
 @MappedSuperclass
@@ -21,10 +23,6 @@ public abstract class AbstractEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void testSuperMethod(){
-        System.out.println("hi");
     }
 
     @Override

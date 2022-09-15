@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Status extends AbstractEntity {
 
-    @Id
     @NotNull
     @Column(name = "statusid")
     private Long id;

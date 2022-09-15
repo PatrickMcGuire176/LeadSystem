@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Company extends AbstractEntity {
-    @Id
     @NotNull
     @Column(name = "companyid")
     private Long id;

@@ -45,7 +45,6 @@ public class CrmService {
         if(contact == null){
             System.err.println("Contact is null");
         }
-        contact.testSuperMethod();
         contactRepository.save(contact);
     }
 

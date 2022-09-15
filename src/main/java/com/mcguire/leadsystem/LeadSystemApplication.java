@@ -27,26 +27,25 @@ import java.util.Scanner;
 public class LeadSystemApplication extends SpringBootServletInitializer implements AppShellConfigurator, CommandLineRunner {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
     public static void main(String[] args) {
         SpringApplication.run(LeadSystemApplication.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
-
-        String sql = "SELECT * FROM contact c";
-        jdbcTemplate.queryForObject(sql, new RowMapper<Contact>() {
-            public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
-                System.out.println(rs.getString(1));
-
-//                Contact student = new Contact();
-//                System.out.println(rs.getString(1)):
-//                System.out.println(rs.get);
-//                student.setName(rs.getString(1) + rs.getString(2));
-//                System.out.println(student.getName());
-                return null;
-            }
-        });
+//
+//        String sql = "SELECT * FROM contact c";
+//        jdbcTemplate.queryForObject(sql, new RowMapper<Contact>() {
+//            public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
+//                System.out.println(rs.getString(1));
+//
+////                Contact student = new Contact();
+////                System.out.println(rs.getString(1)):
+////                System.out.println(rs.get);
+////                student.setName(rs.getString(1) + rs.getString(2));
+////                System.out.println(student.getName());
+//                return null;
+//            }
+//        });
     }
 }
