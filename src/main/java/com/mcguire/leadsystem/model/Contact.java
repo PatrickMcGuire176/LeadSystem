@@ -18,9 +18,12 @@ import java.util.UUID;
 public class Contact extends AbstractEntity {
     //Contact fields
 
-    //@NotNull
-    @Column(name = "contactid")
-    private Long id;
+
+//Having an ID in the contact entity was causing the delete contact to not work
+//  @NotNull
+//    @Id
+//    @Column(name = "contactid")
+//    private Long id;
     //    private String name;
 
     @NotBlank
@@ -45,13 +48,6 @@ public class Contact extends AbstractEntity {
 
     //Default Constructor
     public Contact() {
-    }
-
-    //Constructor to populate basic data
-    public Contact(Long id)
-    //,@JsonProperty("name") String name)
-    {
-        this.id = id;
     }
 
     @Override
@@ -101,7 +97,8 @@ public class Contact extends AbstractEntity {
         this.email = email;
     }
 
-    public Long getID() {
-        return id;
-    }
+//Having an ID in the contact entity was causing the delete contact to not work
+//    public Long getID() {
+//        return id;
+//    }
 }

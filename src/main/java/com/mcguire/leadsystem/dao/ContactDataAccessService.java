@@ -22,9 +22,10 @@ public class ContactDataAccessService implements ContactDao {
 
     @Override
     public List<Contact> selectAllContacts() {
-        return List.of(new Contact(new Random().nextLong()
+        return List.of(new Contact()
+                //new Random().nextLong()
                 //, "FROM POSTGRES DB")
-        ));
+        );
     }
 
     @Override

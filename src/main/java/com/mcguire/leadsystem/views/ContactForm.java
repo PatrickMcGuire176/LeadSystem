@@ -108,7 +108,6 @@ public class ContactForm extends FormLayout {
         DeleteEvent(ContactForm source, Contact contact) {
             super(source, contact);
         }
-
     }
 
     public static class CloseEvent extends ContactFormEvent {
