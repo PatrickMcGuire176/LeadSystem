@@ -5,7 +5,7 @@ import org.hibernate.annotations.Formula;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import javax.annotation.Nullable;
+//import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,16 +15,12 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Company extends AbstractEntity {
-    @NotNull
-    @Column(name = "companyid")
-    private Long id;
-
     @NotBlank
     @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "company")
-    @Nullable
+//   @Nullable
     private List<Contact> employees = new LinkedList<>();
 
     @Formula("(select count(*) from contact)")
@@ -48,12 +44,5 @@ public class Company extends AbstractEntity {
 
     public void setEmployees(List<Contact> employees) {
         this.employees = employees;
-    }
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
     }
 }

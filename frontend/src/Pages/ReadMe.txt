@@ -1,0 +1,2 @@
+The pages folder reflects the routes of the application. Each component inside this folder has its own route.
+A page component will contain children from components folder, parts folder, or its own subfolder. It has its own state, and usually call some services as well.

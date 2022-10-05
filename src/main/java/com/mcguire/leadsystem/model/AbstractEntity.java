@@ -15,9 +15,11 @@ public abstract class AbstractEntity {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Type(type = "long")
+    @NotNull
     private Long id;
 
     public Long getId() {
+        System.out.println("get ID hit in Abstract");
         return id;
     }
 

@@ -2,6 +2,7 @@ package com.mcguire.leadsystem.service;
 
 import com.mcguire.leadsystem.dao.ContactDao;
 import com.mcguire.leadsystem.model.Contact;
+import com.mcguire.leadsystem.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@Component
+//@Component
 public class ContactService {
-
     private final ContactDao contactDao;
+
+    @Autowired
+    ContactRepository contactRepository;
 
     @Autowired
     public ContactService(@Qualifier("test") ContactDao contactDao) {
@@ -27,11 +30,14 @@ public class ContactService {
     }
 
     public List<Contact> getAllContacts(){
-        return contactDao.selectAllContacts();
+        System.out.println("Hit in Service: getAllContacts");
+        //return contactDao.selectAllContacts();
+        return contactRepository.findAll();
     }
 
     public Optional<Contact> getContactByID(Long id){
-        return contactDao.selectContactById(id);
+        //return contactDao.selectContactById(id);
+        return Optional.of(contactRepository.findById(id).get());
     }
 
     public int deleteContact(Long id){

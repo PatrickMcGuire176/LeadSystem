@@ -1,0 +1,1 @@
+The assets folder contains images and scss folder for styling. In this project architecture, I am using centralized styling with SCSS files. 

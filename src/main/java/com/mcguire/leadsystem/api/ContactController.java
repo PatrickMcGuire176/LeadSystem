@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-
-@RequestMapping("api/v1/contact")
 @RestController
+@RequestMapping("api/v1/contact")
+@CrossOrigin
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ContactController {
     private final ContactService contactService;
 
@@ -26,11 +27,14 @@ public class ContactController {
 
     @GetMapping
     public List<Contact> getAllPeople(){
+        System.out.println("Hit in Controller:getAllPeople");
         return contactService.getAllContacts();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000", exposedHeaders = {"Access-Control-Allow-Origin"})
     @GetMapping(path="{id}")
     public Contact getContactById(@PathVariable("id") Long id){
+        System.out.println("getContactbyID hit in ContactController with ID" + id);
         return contactService.getContactByID(id)
                 .orElse(null);
     }
