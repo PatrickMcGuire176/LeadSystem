@@ -45,7 +45,7 @@ public class Contact extends AbstractEntity {
 
     //Default Constructor
     public Contact() {
-        System.out.println("Hit in Contact Constructor: Contact");
+
     }
 
     @Override

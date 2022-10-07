@@ -30,7 +30,6 @@ public class ContactService {
     }
 
     public List<Contact> getAllContacts(){
-        System.out.println("Hit in Service: getAllContacts");
         //return contactDao.selectAllContacts();
         return contactRepository.findAll();
     }

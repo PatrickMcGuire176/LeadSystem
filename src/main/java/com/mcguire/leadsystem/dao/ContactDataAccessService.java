@@ -22,7 +22,6 @@ public class ContactDataAccessService implements ContactDao {
 
     @Override
     public List<Contact> selectAllContacts() {
-        System.out.println("Hit in dataaccesservice");
         return List.of(new Contact()
         );
     }

@@ -18,7 +18,9 @@ import java.util.Scanner;
 
 @SpringBootApplication()
 
-public class LeadSystemApplication extends SpringBootServletInitializer implements CommandLineRunner {
+public class LeadSystemApplication extends SpringBootServletInitializer
+        //implements CommandLineRunner
+{
     @Autowired
     private JdbcTemplate jdbcTemplate;
     public static void main(String[] args) {
@@ -37,21 +39,21 @@ public class LeadSystemApplication extends SpringBootServletInitializer implemen
     }
 
 
-    @Override
-    public void run(String... args) throws Exception {
-
-        String sql = "SELECT * FROM contact c";
-        jdbcTemplate.queryForObject(sql, new RowMapper<Contact>() {
-            public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
-                System.out.println("Hit the database yay " + rs.getString(1));
-
-//                Contact student = new Contact();
-//                System.out.println(rs.getString(1)):
-//                System.out.println(rs.get);
-//                student.setName(rs.getString(1) + rs.getString(2));
-//                System.out.println(student.getName());
-                return null;
-            }
-        });
-    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//
+//        String sql = "SELECT * FROM contact c";
+//        jdbcTemplate.queryForObject(sql, new RowMapper<Contact>() {
+//            public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
+//                System.out.println("Hit the database yay " + rs.getString(1));
+//
+////                Contact student = new Contact();
+////                System.out.println(rs.getString(1)):
+////                System.out.println(rs.get);
+////                student.setName(rs.getString(1) + rs.getString(2));
+////                System.out.println(student.getName());
+//                return null;
+//            }
+//        });
+//    }
 }

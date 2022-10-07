@@ -19,7 +19,6 @@ public abstract class AbstractEntity {
     private Long id;
 
     public Long getId() {
-        System.out.println("get ID hit in Abstract");
         return id;
     }
 

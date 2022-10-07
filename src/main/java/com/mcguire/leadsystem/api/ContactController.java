@@ -25,16 +25,14 @@ public class ContactController {
         contactService.addContact(contact);
     }
 
-    @GetMapping
-    public List<Contact> getAllPeople(){
-        System.out.println("Hit in Controller:getAllPeople");
+    @GetMapping(path="getAllContacts")
+    public List<Contact> getAllContacts(){
         return contactService.getAllContacts();
     }
 
     @CrossOrigin(origins = "http://localhost:3000", exposedHeaders = {"Access-Control-Allow-Origin"})
     @GetMapping(path="{id}")
     public Contact getContactById(@PathVariable("id") Long id){
-        System.out.println("getContactbyID hit in ContactController with ID" + id);
         return contactService.getContactByID(id)
                 .orElse(null);
     }
