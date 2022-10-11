@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000", exposedHeaders = {"Access-Control-Allow-Origin"})
-    @GetMapping(path="password/{email}")
+    @GetMapping(path="login/{email}")
     public String getUserByEmail(@PathVariable("email") String email){
         return userService.getUserByEmail(email)
                 .orElse(null);

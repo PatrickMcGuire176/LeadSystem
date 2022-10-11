@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Form, Button} from "react-bootstrap";
+
 import axios from "axios";
 
-import { Form, Button} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
   function validateForm() {
     return email.length > 0 && password.length > 0;
   }
@@ -18,7 +20,7 @@ function Login() {
   }
   
   const LoginUser = () => {
-    axios.get('http://localhost:8080/api/v1/user/' + email).then(res=> {
+    axios.get('http://localhost:8080/api/v1/user/login/' + email).then(res=> {
         if(res.data===password){
           console.log("success")
           navigate("/ContactList");

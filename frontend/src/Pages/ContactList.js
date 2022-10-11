@@ -1,66 +1,55 @@
-import React  from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { React, useEffect, useState}  from "react";
 import BasicExample from "../Components/Navbar";
-import Table from 'react-bootstrap/Table';
+import {Button, Table} from "react-bootstrap";
+
 import Api from "../api/api";
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 
+function ContactList() {
 
-export default class ContactList extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        value: null,
-      };
-    }
+  const [data, setData] = useState([]);
 
-    componentDidMount() {
-        const api = new Api()  
-        console.log("test");
-        console.log(api.getAllContacts);
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    const api = new Api();
+    api.getAllContacts()
+      .then(res => setData(res.data));
+    // api.getAllContacts().then(res => console.log(res.data[0].id));
+    // axios.get('http://localhost:8080/api/v1/contact/getAllContacts').then((res) => {
+    // console.log(res.data[0].id)});
+  }, []);
 
-    }
-
-  
-    render() {
-      return (
-        <div id="root">
-            <BasicExample/>
-        <Table striped bordered hover>
-        <thead>
-          <tr>            
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Company</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>            
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>            
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>        
-            <td>Larry</td>
-            <td>The Bird</td>
-            <td>@twitter</td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </Table>
-      </div>
-      )
-    }
+  const renderTableData = () => {
+    return data.map((val) => (
+        <tr>
+            <td>{val.firstName}</td>
+            <td>{val.lastName}</td>
+            <td>{val.email}</td>
+            <td>{val.company.name}</td>
+            <td>{val.status.id}</td>
+        </tr>))
   }
+  
+  return (
+      <div id="root">
+        <BasicExample/>
+        <Table striped bordered hover>
+          <thead>
+            <tr>            
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Company</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {renderTableData()}
+          </tbody>
+      </Table>
+    </div>
+    )
+  }
+  export default ContactList
