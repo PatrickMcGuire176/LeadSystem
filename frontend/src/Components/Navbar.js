@@ -1,32 +1,26 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import {Navbar, NavItem, Nav} from 'react-bootstrap';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import MailIcon from '../Assets/Icons/mail.svg'
+import MessageIcon from '../Assets/Icons/message-square.svg'
+import Reporting from '../Assets/Icons/trello.svg'
 
 function BasicExample() {
     return (
-      <Navbar bg="light" expand="lg">
-        <Container>
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+      <Navbar style={{backgroundColor:"#white", borderStyle:"solid", borderWidth:"2px", borderImage:"linear-gradient"}} bg="white" expand="lg">        
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Separated link
-                </NavDropdown.Item>
-              </NavDropdown>
+            <Nav className="flex-column" bsStyle="pills" stacked activeKey={1}>
+              <NavItem eventKey={1} href="/home">
+                <img className="NavbarIconStyling" src={MailIcon} alt="Mail Icon" />
+              </NavItem>
+              <NavItem eventKey={2} title="Item">
+                <img className="NavbarIconStyling"  src={MessageIcon} alt="Message Icon" />
+              </NavItem>
+              <NavItem eventKey={3} disabled>
+                <img className="NavbarIconStyling"  src={Reporting} alt="Message Icon" />
+              </NavItem>
             </Nav>
-          </Navbar.Collapse>
-        </Container>
+          </Navbar.Collapse>      
       </Navbar>
     );
   }
