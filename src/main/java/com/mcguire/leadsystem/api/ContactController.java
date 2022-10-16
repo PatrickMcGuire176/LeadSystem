@@ -1,17 +1,21 @@
 package com.mcguire.leadsystem.api;
 
+import com.mcguire.leadsystem.customexceptions.ContactNotFound;
 import com.mcguire.leadsystem.model.Contact;
+import com.mcguire.leadsystem.model.ContactCompany;
 import com.mcguire.leadsystem.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.UUID;
+
 @RestController
 @RequestMapping("api/v1/contact")
-@CrossOrigin
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000")
+
 public class ContactController {
     private final ContactService contactService;
 
@@ -20,30 +24,46 @@ public class ContactController {
         this.contactService = contactService;
     }
 
-    @PostMapping
-    public void addContact(@NonNull @RequestBody Contact contact){
-        contactService.addContact(contact);
+    @PostMapping(path = "addContact")
+    public void addContact(@NonNull @RequestBody Contact contact) {
+        try {
+            contactService.addContact(contact);
+        } catch (ResponseStatusException e) {
+            System.out.println(e.getMessage());
+
+        }
     }
 
-    @GetMapping(path="getAllContacts")
-    public List<Contact> getAllContacts(){
+    @GetMapping(path = "getAllContacts")
+    public List<ContactCompany> getAllContacts() {
         return contactService.getAllContacts();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000", exposedHeaders = {"Access-Control-Allow-Origin"})
-    @GetMapping(path="{id}")
-    public Contact getContactById(@PathVariable("id") Long id){
+    @GetMapping(path = "{id}")
+    public Contact getContactById(@PathVariable("id") Long id) {
         return contactService.getContactByID(id)
+                .stream().findFirst()
                 .orElse(null);
     }
 
+    @GetMapping(path = "/getContact/{email}")
+    public String getContactByEmail(@PathVariable("email") String email) {
+        try {
+            return contactService.getContactByEmail(email).orElse(null);
+        } catch (NullPointerException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Contact Not Found");
+        }
+    }
+
+
     @DeleteMapping(path = "{id}")
-    public void deleteContactById(@PathVariable("id") Long id){
+    public void deleteContactById(@PathVariable("id") Long id) {
         contactService.deleteContact(id);
     }
 
     @PutMapping(path = "{id}")
-    public void updateContact(@PathVariable("id") Long id, @NonNull @RequestBody Contact contactToUpdate){
-        contactService.updateContact(id,contactToUpdate);
+    public void updateContact(@PathVariable("id") Long id, @NonNull @RequestBody Contact contactToUpdate) {
+        contactService.updateContact(id, contactToUpdate);
     }
 }
