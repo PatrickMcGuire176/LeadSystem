@@ -6,6 +6,7 @@ import com.mcguire.leadsystem.model.ContactCompany;
 import com.mcguire.leadsystem.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,13 +26,13 @@ public class ContactController {
     }
 
     @PostMapping(path = "addContact")
-    public void addContact(@NonNull @RequestBody Contact contact) {
+    public ResponseEntity<String> addContact(@NonNull @RequestBody Contact contact) {
         try {
             contactService.addContact(contact);
         } catch (ResponseStatusException e) {
-            System.out.println(e.getMessage());
-
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Contact already exists");
         }
+        return ResponseEntity.ok().body("Contact added");
     }
 
     @GetMapping(path = "getAllContacts")

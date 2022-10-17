@@ -50,7 +50,6 @@ public class ContactService {
     }
 
     public Optional<String> getContactByEmail(String email){
-        System.out.println("email is" + email);
         return Optional.ofNullable(contactRepository.getContactByEmail(email));
     }
 

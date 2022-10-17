@@ -8,6 +8,7 @@ import com.mcguire.leadsystem.service.CompanyService;
 import com.mcguire.leadsystem.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,23 +30,18 @@ public class CompanyController {
     }
 
     @PostMapping(path = "addCompany")
-    public void addCompany(@NonNull @RequestBody Company company) {
-        //Check if company already exists
+    public ResponseEntity<String> addCompany(@NonNull @RequestBody Company company) {
         try {
-            String temp = getCompanyByName(company.getName());
-            if(!temp.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "Company already exists");
-            }
-        } catch (NullPointerException e) {
             companyService.addCompany(company);
+        } catch (ResponseStatusException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Company already exists");
         }
+        return ResponseEntity.ok().body("Company added");
     }
     @GetMapping(path = "getCompanyByName/{companyName}")
     public String getCompanyByName(@PathVariable("companyName") String companyName) {
         try {
-            String s1 = companyService.getCompanyByName(companyName);
-            System.out.println("Something here is " + s1);
-            return s1;
+            return companyService.getCompanyByName(companyName).orElse(null);
         } catch (NullPointerException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Company Not Found");

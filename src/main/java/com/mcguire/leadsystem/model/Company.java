@@ -18,31 +18,17 @@ public class Company extends AbstractEntity implements Serializable  {
     @Column(name = "name")
     private String name;
 
-    @NotBlank
-    @Column(name = "company_id")
-    private int company_id;
 
     @Formula("(select count(*) from contact)")
     private int employeeCount;
 
 
-    public Company(String name, int company_id) {
-        System.out.println("Initializing full constructor in company model");
+    public Company(String name) {
         this.name = name;
-        this.company_id = company_id;
     }
 
     public Company() {
-        System.out.println("Initializing default construct in company model");
-    }
 
-    public int getCompany_id() {
-        System.out.println("Getting company ID");
-        return company_id;
-    }
-
-    public void setCompany_id(int company_id) {
-        this.company_id = company_id;
     }
 
     public String getName() {
