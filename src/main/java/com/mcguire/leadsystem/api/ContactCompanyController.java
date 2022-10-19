@@ -9,19 +9,15 @@ import com.mcguire.leadsystem.service.ContactService;
 import com.mcguire.leadsystem.service.CrmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 import java.util.Map;
 
 @Controller
 @RequestMapping("api/v1/contactCompany")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", exposedHeaders = "Company, Contact")
 public class ContactCompanyController {
     @Autowired
     private final CrmService crmService;
@@ -61,11 +57,6 @@ public class ContactCompanyController {
                         System.out.println("Parameter was not found");
                 }}
         );
-        System.out.println(contact.getFirstName());
-        System.out.println(contact.getLastName());
-        System.out.println(contact.getEmail());
-        System.out.println(company.getName());
-
         try {
             contactService.addContact(contact);
             responseHeaders.add("Contact", "Added");
@@ -81,6 +72,7 @@ public class ContactCompanyController {
         }
 
         System.out.println("Added company ID Is " + company.getId());
+        responseHeaders.add("Access-Control-Allow-Headers",  "Company, Contact");
         return ResponseEntity.ok()
                 .headers(responseHeaders)
                 .body("Response with header using ResponseEntity");

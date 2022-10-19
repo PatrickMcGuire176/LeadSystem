@@ -80,3 +80,9 @@ img {
   padding:20px;
   border-radius: 20px;
 }
+
+.required:after {
+  content: "*";
+  color: red;
+  margin-left:2px
+}
