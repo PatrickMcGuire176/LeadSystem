@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Button, Form } from "react-bootstrap";
 // import {addContactCompany,getAllContacts} from "../api/api";
 import { addContactCompany } from "../api/api";
-import { AlertSuccess, AlertFailure } from "../Components/Alert";
+import { AlertFullSuccess, AlertFullFailure, AlertPartialSuccess } from "../Components/Alert";
 
 function AddContact({ onAddClick, onCancelClick }) {
   const [firstName, setFirstName] = useState("");
@@ -13,55 +13,61 @@ function AddContact({ onAddClick, onCancelClick }) {
   const [toggleAlert, setToggleAlert] = useState(false);
   const [companyAddSuccess, setCompanyAddSuccess] = useState(null);
   const [contactAddSuccess, setContactAddSuccess] = useState(null);
+  const [contactCompanyPostResponseMessage, setContactCompanyPostResponseMessage] = useState("");
 
   const buildContactCompanyPost = () => {
-    console.log("buildContactCompany start");
+    
     const headers = addContactCompany(
       firstName,
       lastName,
       email,
       companyName,
       notes
-    ).then((response) => {
-      if (response.company == "Added") {
+    )
+        .then((response) => {
+      if (response.headers.company == "Added") {
         setCompanyAddSuccess(true);
       }
-      if (response.contact == "Added") {
+      if (response.headers.contact == "Added") {
         setContactAddSuccess(true);
       }
-      if (response.company == "Not Added") {
+      if (response.headers.company == "Not Added") {
         setCompanyAddSuccess(false);
       }
-      if (response.contact == "Not Added") {
+      if (response.headers.contact == "Not Added") {
         setContactAddSuccess(false);
       }
+      setContactCompanyPostResponseMessage(response.data);
     });
-    // .then(() => {
-    //   console.log("Use State Data start");
-    //   console.log(companyAddSuccess);
-    //   console.log(contactAddSuccess);
-    //   console.log("Use State Data end");
+
+    // .then((response) => {
+    //   if (response.company == "Added") {
+    //     setCompanyAddSuccess(true);
+    //   }
+    //   if (response.contact == "Added") {
+    //     setContactAddSuccess(true);
+    //   }
+    //   if (response.company == "Not Added") {
+    //     setCompanyAddSuccess(false);
+    //   }
+    //   if (response.contact == "Not Added") {
+    //     setContactAddSuccess(false);
+    //   }
     // });
-  };
-
-  // const displayAlertLogic = () => {
-  //   setHeaders(buildContactCompanyPost().headers.get("Company"));
-  //   // console.log("headers");
-  //   // console.log(headers);
-  //   //AlertDismissible("asdfasdf", true);
-  // };
-
-  const testButton = () => {
-    console.log(companyAddSuccess);
-    console.log(contactAddSuccess);
-    setContactAddSuccess(false);
-    setCompanyAddSuccess(false);
   };
 
   const toggleAlertMethod = () => {
     // 👇️ passed function to setState
     setToggleAlert((current) => !current);
   };
+
+  const closeContactAlert = useCallback(() => {
+    setContactAddSuccess(null);
+  });
+
+  const closeCompanyAlert = useCallback(() => {
+    setCompanyAddSuccess(null);
+  });
 
   return (
     <Form id="AddContactForm">
@@ -73,7 +79,6 @@ function AddContact({ onAddClick, onCancelClick }) {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             placeholder="Enter First Name"
-            required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="addContactFormLastName">
@@ -116,39 +121,44 @@ function AddContact({ onAddClick, onCancelClick }) {
             required
           />
         </Form.Group>
-        {companyAddSuccess === true && contactAddSuccess === true && (          
+
+        {contactAddSuccess === true && companyAddSuccess === true && (
           <div>
-          <AlertSuccess message="Contact saved"></AlertSuccess>
-          <AlertSuccess message="Company saved"></AlertSuccess>
-          </div>
-          // <AlertDismissible thisMessage="Double Success" thisSuccess={true} thisShow={true}></AlertDismissible>        
-        )}
-        {contactAddSuccess === false && companyAddSuccess === true  && (          
-          <div>
-          <AlertFailure message="Contact not saved"></AlertFailure>
-          <AlertSuccess message="Company saved"></AlertSuccess>         
-          </div>
-        )}
-        {contactAddSuccess === true && companyAddSuccess === false &&  (          
-          <div>
-          <AlertSuccess message="Contact saved"></AlertSuccess>
-          <AlertFailure message="Company not saved"></AlertFailure>
-          </div>
-        )}
-        {contactAddSuccess === false && companyAddSuccess === false &&  (          
-          <div>
-          <AlertFailure message="Contact not saved"></AlertFailure>
-          <AlertFailure message="Company not saved"></AlertFailure>
+            <AlertFullSuccess
+              message="Contact and Company saved successfully"
+              apiMessage={contactCompanyPostResponseMessage}
+              hideAlertCallback={setContactAddSuccess}
+            ></AlertFullSuccess>
           </div>
         )}
 
+        {(contactAddSuccess === true && companyAddSuccess === false) || 
+         (contactAddSuccess === false && companyAddSuccess === true) && (
+          <div>
+            <AlertPartialSuccess
+              message="Partial"
+              apiMessage={contactCompanyPostResponseMessage}
+              hideAlertCallback={setContactAddSuccess}
+            ></AlertPartialSuccess>
+          </div>
+        )}
+
+        {contactAddSuccess === false && companyAddSuccess === false && (
+          <div>
+            <AlertFullFailure
+              message="Contact and Company not saved"
+              apiMessage={contactCompanyPostResponseMessage}
+              hideAlertCallback={setContactAddSuccess}
+            ></AlertFullFailure>
+          </div>
+        )}
+
+        
         <Button
           variant="primary"
+          // type="submit"
           onClick={() => {
-            //displayAlertLogic();
             buildContactCompanyPost();
-            // toggleAlertMethod();
-            // AlertDismissible("asdfasdf", true);
           }}
         >
           Add
@@ -160,13 +170,6 @@ function AddContact({ onAddClick, onCancelClick }) {
           onClick={onCancelClick}
         >
           Cancel
-        </Button>
-        <Button
-          style={{ marginLeft: "10px" }}
-          variant="danger"
-          onClick={testButton}
-        >
-          Test
         </Button>
       </fieldset>
     </Form>

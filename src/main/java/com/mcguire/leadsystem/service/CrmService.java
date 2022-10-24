@@ -18,7 +18,6 @@ public class CrmService {
     }
 
     public void addContactCompany(ContactCompany contactCompany){
-
-
+        contactCompanyRepository.save(contactCompany);
     }
 }

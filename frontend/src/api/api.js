@@ -28,7 +28,10 @@ export async function addContactCompany(firstName, lastName, email, companyName,
   //     console.log(response.headers);
   //   })
   .then((response) => {
-    return response.headers;
+    return response;
   })
+  // .then((response) => {
+  //   return response.headers;
+  // })
     .catch((error) => console.log(error));
 };

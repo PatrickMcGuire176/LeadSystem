@@ -10,4 +10,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Query(value="SELECT name FROM company c where c.name =:name", nativeQuery = true)
     String findCompanyByEmail(@Param("name") String name);
 
+    @Query(value="SELECT id FROM company c where c.name =:name", nativeQuery = true)
+    Long findCompanyIdByName(@Param("name") String name);
+
 }

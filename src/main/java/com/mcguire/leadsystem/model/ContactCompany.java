@@ -1,13 +1,6 @@
 package com.mcguire.leadsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -19,20 +12,24 @@ import javax.validation.constraints.NotNull;
 @Table(name = "contactcompany")
 public class ContactCompany extends AbstractEntity {
     //ContactCompany Fields
-
-    @NotEmpty
     @Column(name="status")
     private Boolean status;
+
+    @Column(name="company_id")
+    private Long companyId;
+
+    @Column(name="contact_id")
+    private Long contactId;
+
     @NotNull
     @ManyToOne
-    @JoinColumn(name="company_id", referencedColumnName="id")
+    @JoinColumn(name="company_id", referencedColumnName="id", insertable=false, updatable=false)
     private Company company;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name="contact_id", referencedColumnName="id")
+    @JoinColumn(name="contact_id", referencedColumnName="id", insertable=false, updatable=false)
     private Contact contact;
-
 
     public ContactCompany() {
     }
@@ -40,6 +37,11 @@ public class ContactCompany extends AbstractEntity {
     public ContactCompany(Company company, Contact contact) {
         this.company = company;
         this.contact = contact;
+    }
+    public ContactCompany(Boolean status, Long companyId, Long contactId) {
+        this.status = status;
+        this.companyId = companyId;
+        this.contactId = contactId;
     }
 
     public Contact getContact() {
@@ -64,4 +66,20 @@ public class ContactCompany extends AbstractEntity {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
+    public Long getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(Long contactId) {
+        this.contactId = contactId;
+    }
 }
+

@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { useGlobalFilter } from "react-table";
 //import Navbar from "../Components/Navbar";
 import {
   Col,
@@ -8,7 +9,6 @@ import {
   InputGroup,
   Form,
 } from "react-bootstrap";
-import "D:/MintDownloadsFolder/leadsystem/frontend/src/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddContact from "../Components/AddContact";
 //import { DropdownFilter, TextSearchFilter } from "react-table";
@@ -20,42 +20,36 @@ import { getAllContacts } from "../api/api";
 function ContactList() {
   const [data, setData] = useState([]);
   const [addContactForm, setAddContactForm] = useState(false);
+  const [searchedVal, setSearchedVal] = useState("");
 
-  // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     getAllContacts().then((res) => setData(res.data));
-  }, []);
+    console.log("use effect on contact list ht");
+  }, [data]);
 
   const toggleAddContact = () => {
-    // 👇️ passed function to setState
     setAddContactForm((current) => !current);
   };
-
-  // const ColumnFilter = ({ column }) => {
-  //   const { filterValue, setFilter } = column;
-  //   return (
-  //     <span>
-  //       Search:{" "}
-  //       <input
-  //         value={filterValue || ""}
-  //         onChange={(e) => setFilter(e.target.value)}
-  //       />
-  //     </span>
-  //   );
-  // };
-
+  
   const renderTableData = () => {
-    return data.map((val, i) => (
-      <tr key={i}>
-        <td>{val.contact.firstName}</td>
-        <td>{val.contact.lastName}</td>
-        <td>{val.contact.email}</td>
-        <td>{val.company.name}</td>
-        <td>{val.status.toString()}</td>
-      </tr>
-    ));
-  };
+    {return data
+      .filter((row) =>
+        !searchedVal.length || row.contact.email
+          .toString()
+          .toLowerCase()
+          .includes(searchedVal.toString().toLowerCase()) 
+      ).map((val, i) => (
+        <tr key={i}>
+          <td>{val.contact.firstName}</td>
+          <td>{val.contact.lastName}</td>
+          <td>{val.contact.email}</td>
+          <td>{val.company.name}</td>
+          <td>{val.status.toString()}</td>
+        </tr>
+      ))}};
 
+
+  
   return (
     <div id="root">
       {/* <div className="container-sm">
@@ -65,30 +59,16 @@ function ContactList() {
         <Row>
           <h1 style={{ marginBottom: "20px" }}>LeadSystem</h1>
         </Row>
-        {/* <Row>
-          <Button
-            style={{
-              width: "150px",
-              height: "50px",
-              marginBottom: "20px",
-              marginLeft: "20px",
-              float: "right",
-            }}
-            onClick={testGet}
-          ></Button>
-        </Row> */}
         <Row style={{ marginBottom: "20px" }}>
           <Col>
             <InputGroup className="foat-start" style={{ width: "800px" }}>
               <Form.Control
-                placeholder="Recipient's username"
-                aria-label="Recipient's username"
+                placeholder="Recipient's email"
+                aria-label="Recipient's email"
                 aria-describedby="basic-addon2"
+                onChange={(e) => setSearchedVal(e.target.value)}
               />
               <InputGroup.Text id="basic-addon2">@example.com</InputGroup.Text>
-              <Button variant="outline-secondary" id="button-addon2">
-                Search
-              </Button>
             </InputGroup>
           </Col>
           <Col>

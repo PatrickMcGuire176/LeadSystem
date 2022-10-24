@@ -50,7 +50,7 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button className="container LoginButtonStyling" type="submit" onClick={LoginUser} disabled={!validateForm()}>
+        <Button className="container LoginButtonStyling" type="submit" onClick={LoginUser} autoFocus disabled={!validateForm()}>
           Login
         </Button>
       </Form>

@@ -1,36 +1,61 @@
 version: '3.8'
 services:
-  leadsystem-app:
-    container_name: spring-app
-    image: springboot-app
-    build: .
+  app-server:
+    build:
+#      context: leadsystem # Use an image built from the specified Dockerfile in the `polling-app-server` directory.
+      context: .
+      dockerfile: src/Dockerfile
+    image: leadsystemserver123
     ports:
-      - 8080
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/sys?autoReconnect=true&useSSL=false
+      - "8080:8080"
+    restart: always
     depends_on:
       - mysqldb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/sys?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: TestPassword12!
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+      - frontend
+
+
+  app-client:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_BASE_URL: http://localhost:8080
+    ports:
+      - "3000:80"
+    restart: always
+    depends_on:
+      - app-server
+    networks:
+      - frontend
 
   mysqldb:
     container_name: mysqldb
     image: mysql
+    build:
+      context: db_init
+      dockerfile: Dockerfile
     ports:
-      - 3306
+      - "3307:3306"
+    restart: always
     environment:
       MYSQL_DATABASE: sys
-      MYSQL_ROOT_PASSWORD: BsRodeo720!
+      MYSQL_PASSWORD: TestPassword12!
+      MYSQL_ROOT_PASSWORD: TestPassword12!
+    volumes:
+      - ./db_init:/docker-entrypoint-initdb.d/
+    networks:
+      - backend
+volumes:
+  db_init:
 
 
-
-
-
-#    frontend:
-#      image: my-vue-app
-#      links:
-#        - db
-#      ...
-#    db:
-#      image: "8-oracle"
-#      container_name: "leadsystem-mysql"
-#      #image: postgres
-#      ...
+# Networks to be created to facilitate communication between containers
+networks:
+  backend:
+  frontend:

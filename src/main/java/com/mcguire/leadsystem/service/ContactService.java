@@ -9,6 +9,7 @@ import com.mcguire.leadsystem.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -31,14 +32,15 @@ public class ContactService {
         this.contactDao = contactDao;
     }
 
-    public void addContact(Contact contact){
+    public ResponseEntity<String> addContact(Contact contact){
         Optional<String> temp = getContactByEmail(contact.getEmail());
         if (temp.isEmpty()){
             contactRepository.save(contact);
         } else if (!temp.isEmpty()){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Contact already exists");
         }
-
+        return ResponseEntity.ok()
+                .body("Contact added");
     }
 
     public List<ContactCompany> getAllContacts(){
@@ -51,6 +53,10 @@ public class ContactService {
 
     public Optional<String> getContactByEmail(String email){
         return Optional.ofNullable(contactRepository.getContactByEmail(email));
+    }
+
+    public Long getContactIdByEmail(String email){
+        return contactRepository.getContactIdByEmail(email);
     }
 
     public int deleteContact(Long id){

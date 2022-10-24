@@ -17,4 +17,7 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
     @Query(value="SELECT email FROM Contact c where c.email = :email", nativeQuery = true)
     String getContactByEmail(@Param("email") String email);
 
+    @Query(value="SELECT id FROM Contact c where c.email = :email", nativeQuery = true)
+    Long getContactIdByEmail(@Param("email") String email);
+
 }

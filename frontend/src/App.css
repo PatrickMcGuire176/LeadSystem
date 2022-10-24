@@ -86,3 +86,15 @@ img {
   color: red;
   margin-left:2px
 }
+
+.close {
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 15px;
+  border-radius: 50%;
+  border: 2px solid rgb(255, 255, 255);
+  font-size: 20px;
+  font-weight: bolder;
+}
