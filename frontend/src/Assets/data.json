@@ -1,0 +1,32 @@
+[
+    {
+        "id": 123456,
+        "firstName": "Patrick",
+        "lastName": "McGuire",
+        "company": {
+            "id": 1234,
+            "name": "Cvent",
+            "employeeCount": 2
+        },
+        "email": "pmcguire@gmail.com",
+        "status": {
+            "id": 1,
+            "name": "Active"
+        }
+    },
+    {
+        "id": 123457,
+        "firstName": "John",
+        "lastName": "Smith",
+        "company": {
+            "id": 1234,
+            "name": "Cvent",
+            "employeeCount": 2
+        },
+        "email": "JohnSmith@gmail.com",
+        "status": {
+            "id": 1,
+            "name": "Active"
+        }
+    }
+]

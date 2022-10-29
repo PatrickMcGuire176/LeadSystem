@@ -1,58 +1,23 @@
 package com.mcguire.leadsystem.service;
 
-import com.mcguire.leadsystem.model.Company;
-import com.mcguire.leadsystem.model.Contact;
-import com.mcguire.leadsystem.model.Status;
-import com.mcguire.leadsystem.repository.CompanyRepository;
-import com.mcguire.leadsystem.repository.ContactRepository;
-import com.mcguire.leadsystem.repository.StatusRepository;
+import com.mcguire.leadsystem.model.ContactCompany;
+import com.mcguire.leadsystem.repository.ContactCompanyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CrmService {
+    @Autowired
+    private final ContactCompanyRepository contactCompanyRepository;
 
-    private final ContactRepository contactRepository;
-    private final CompanyRepository companyRepository;
-    private final StatusRepository statusRepository;
-
-    public CrmService(ContactRepository contactRepository,
-                      CompanyRepository companyRepository,
-                      StatusRepository statusRepository){
-        this.contactRepository = contactRepository;
-        this.companyRepository = companyRepository;
-        this.statusRepository = statusRepository;
+    public CrmService(ContactCompanyRepository contactCompanyRepository){
+        this.contactCompanyRepository = contactCompanyRepository;
     }
 
-    public List<Contact> findAllContacts(String filterText){
-        if(filterText == null || filterText.isEmpty()){
-            return contactRepository.findAll();
-        } else {
-            return contactRepository.search(filterText);
-        }
-    }
-
-    public long countContacts(){
-        return contactRepository.count();
-    }
-
-    public void deleteContact(Contact contact){
-        contactRepository.delete(contact);
-    }
-
-    public void saveContact(Contact contact){
-        if(contact == null){
-            System.err.println("Contact is null");
-        }
-        contactRepository.save(contact);
-    }
-
-    public List<Company> findAllCompanies(){
-        return companyRepository.findAll();
-    }
-
-    public List<Status> findAllStatuses(){
-        return statusRepository.findAll();
+    public void addContactCompany(ContactCompany contactCompany){
+        contactCompanyRepository.save(contactCompany);
     }
 }

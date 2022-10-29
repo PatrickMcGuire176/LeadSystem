@@ -1,54 +1,39 @@
 package com.mcguire.leadsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 /**
  * The contact data model which stores data about the contact
  */
 
 @Entity
-//@Table(name = "Contact")
+@Table(name = "Contact")
 public class Contact extends AbstractEntity {
     //Contact fields
-
-
-//Having an ID in the contact entity was causing the delete contact to not work
-//  @NotNull
-//    @Id
-//    @Column(name = "contactid")
-//    private Long id;
-    //    private String name;
-
     @NotBlank
-    @Column(name = "firstname")
+    @Column(name = "first_name")
     private String firstName = "";
     @NotBlank
-    @Column(name = "lastname")
+    @Column(name = "last_name")
     private String lastName = "";
-    @ManyToOne
-    @JoinColumn(name = "companyid")
-    @NotNull
-    @JsonIgnoreProperties({"employees"})
-    private Company company;
+
     @Email
     @NotBlank
     @Column(name = "email")
     private String email = "";
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "statusid")
-    private Status status;
 
-    //Default Constructor
     public Contact() {
+        System.out.println("Initializing default construct in contact model");
     }
+    public Contact(String firstName, String lastName, String email) {
+        System.out.println("Initializing full constructor in contact model");
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+    //Default Constructor
 
     @Override
     public String toString() {
@@ -73,22 +58,6 @@ public class Contact extends AbstractEntity {
         this.lastName = lastName;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -97,8 +66,4 @@ public class Contact extends AbstractEntity {
         this.email = email;
     }
 
-//Having an ID in the contact entity was causing the delete contact to not work
-//    public Long getID() {
-//        return id;
-//    }
 }
