@@ -16,9 +16,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("api/v1/contactCompany")
-@CrossOrigin(origins = "http://localhost:3000", exposedHeaders = "Company, Contact")
+@CrossOrigin(exposedHeaders = "Company, Contact")
 public class ContactCompanyController {
     @Autowired
     private final CrmService crmService;

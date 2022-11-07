@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("SELECT password FROM User u where u.email =:email")
+    @Query(value="SELECT password FROM user u where u.email =:email",nativeQuery = true)
     String findPasswordByEmail(@Param("email") String email);
 
 }

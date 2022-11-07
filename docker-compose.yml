@@ -2,17 +2,16 @@ version: '3.8'
 services:
   app-server:
     build:
-#      context: leadsystem # Use an image built from the specified Dockerfile in the `polling-app-server` directory.
-      context: .
-      dockerfile: src/Dockerfile
-    image: leadsystemserver123
+      context: ./src
+      dockerfile: Dockerfile
+    image: leadsystem-app-backend
     ports:
       - "8080:8080"
     restart: always
     depends_on:
       - mysqldb
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/sys?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://107.21.182.152/sys?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: TestPassword12!
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
@@ -21,6 +20,7 @@ services:
 
 
   app-client:
+    image: leadsystem-app-frontend
     build:
       context: frontend
       dockerfile: Dockerfile
@@ -36,7 +36,7 @@ services:
 
   mysqldb:
     container_name: mysqldb
-    image: mysql
+    image: leadsystem-app-db
     build:
       context: db_init
       dockerfile: Dockerfile

@@ -9,15 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ContactRepository extends JpaRepository<Contact, Long> {
-    @Query("select c from Contact c " +
-            "where lower(c.firstName) like lower(concat('%', :searchTerm, '%')) " +
-            "or lower(c.lastName) like lower(concat('%', :searchTerm, '%'))")
-    List<Contact> search(@Param("searchTerm") String searchTerm);
 
-    @Query(value="SELECT email FROM Contact c where c.email = :email", nativeQuery = true)
+    @Query(value="SELECT email FROM contact c where c.email = :email", nativeQuery = true)
     String getContactByEmail(@Param("email") String email);
 
-    @Query(value="SELECT id FROM Contact c where c.email = :email", nativeQuery = true)
+    @Query(value="SELECT id FROM contact c where c.email = :email", nativeQuery = true)
     Long getContactIdByEmail(@Param("email") String email);
 
 }

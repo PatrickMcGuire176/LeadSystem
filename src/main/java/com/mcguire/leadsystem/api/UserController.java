@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/user")
-@CrossOrigin
+//@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired
     private final UserService userService;
@@ -21,11 +21,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000", exposedHeaders = {"Access-Control-Allow-Origin"})
+//    @CrossOrigin(origins = "http://localhost:3000", exposedHeaders = {"Access-Control-Allow-Origin"})
     @GetMapping(path="login/{email}")
     public String getUserByEmail(@PathVariable("email") String email){
         return userService.getUserByEmail(email)
                 .orElse(null);
     }
-
 }

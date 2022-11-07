@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useCallback, useState } from "react";
 import { useGlobalFilter } from "react-table";
 //import Navbar from "../Components/Navbar";
 import {
@@ -21,14 +21,15 @@ function ContactList() {
   const [data, setData] = useState([]);
   const [addContactForm, setAddContactForm] = useState(false);
   const [searchedVal, setSearchedVal] = useState("");
+  const [dataChanged, setDataChanged] = useState(null);
 
   useEffect(() => {
     getAllContacts().then((res) => setData(res.data));
-    console.log("use effect on contact list ht");
-  }, [data]);
+  }, [JSON.stringify(data)]);
 
   const toggleAddContact = () => {
     setAddContactForm((current) => !current);
+    console.log("hi");
   };
   
   const renderTableData = () => {
@@ -48,10 +49,16 @@ function ContactList() {
         </tr>
       ))}};
 
-
+      function dataChangedMethod(){
+        setDataChanged((current) => !current)
+      }
+      
+      function getContactFormValue(){
+        console.log(addContactForm);
+      }
   
   return (
-    <div id="root">
+    <div id="root">    
       {/* <div className="container-sm">
         <Navbar/>
       </div> */}
@@ -100,7 +107,7 @@ function ContactList() {
           {addContactForm === true && (
             <Fragment>
               <Col xs={4}>
-                <AddContact onCancelClick={() => setAddContactForm(false)} />
+                <AddContact onCancelClick={() => setAddContactForm(false)} onAddClick={() => setAddContactForm(true)} />
               </Col>
             </Fragment>
           )}
