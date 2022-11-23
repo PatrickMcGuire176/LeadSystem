@@ -61,6 +61,8 @@ public class ContactCompanyController {
                         System.out.println("Parameter was not found");
                 }}
         );
+
+        //Try to add contact
         try {
             sb.append(contactService.addContact(contact).getBody() + " ");
             contactCompany.setContactId(contact.getId());
@@ -71,6 +73,7 @@ public class ContactCompanyController {
             responseHeaders.add("Contact", "Not Added");
         }
 
+        //Try to add company
         try {
             sb.append(companyService.addCompany(company).getBody()  + " ");
             contactCompany.setCompanyId(company.getId());

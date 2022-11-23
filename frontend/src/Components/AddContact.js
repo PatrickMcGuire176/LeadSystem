@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button, Form } from "react-bootstrap";
 // import {addContactCompany,getAllContacts} from "../api/api";
+// import { updateTableData } from "../Pages/ContactList"
 import { addContactCompany } from "../api/api";
 import {
   AlertFullSuccess,
@@ -8,11 +9,11 @@ import {
   AlertPartialSuccess,
 } from "../Components/Alert";
 
-function AddContact({ onAddClick, onCancelClick }) {
-  const [firstName, setFirstName] = useState("Patrick");
-  const [lastName, setLastName] = useState("McGuire");
-  const [email, setEmail] = useState("patrickmcguire176+@gmail.com");
-  const [companyName, setCompany] = useState("Google");
+function AddContact({ onAddClick, onCancelClick, updateTableDataProp, passedFirstName, passedLastName, passedEmail, passedCompany}) {
+  const [firstName, setFirstName] = useState(passedFirstName);
+  const [lastName, setLastName] = useState(passedLastName);
+  const [email, setEmail] = useState(passedEmail);
+  const [companyName, setCompany] = useState(passedCompany);
   const [notes, setNotes] = useState("asdf");
   const [toggleAlert, setToggleAlert] = useState(false);
   const [companyAddSuccess, setCompanyAddSuccess] = useState(null);
@@ -22,6 +23,14 @@ function AddContact({ onAddClick, onCancelClick }) {
     setContactCompanyPostResponseMessage,
   ] = useState("");
 
+  useEffect(() => {
+    setFirstName(passedFirstName);
+    setLastName(passedLastName);
+    setEmail(passedEmail);
+    setCompany(passedCompany)
+  
+    console.log("it ran");
+  }, [passedFirstName, passedLastName, passedEmail, passedCompany] );
 
   const buildContactCompanyPost = () => {
     if (!firstName || !lastName || !email || !companyName || !notes) {
@@ -48,6 +57,8 @@ function AddContact({ onAddClick, onCancelClick }) {
         setContactAddSuccess(false);
       }
       setContactCompanyPostResponseMessage(response.data);
+    }).then(() => {
+      updateTableDataProp();
     });
   };
 
@@ -79,7 +90,7 @@ function AddContact({ onAddClick, onCancelClick }) {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="Enter First Name"
-              required            
+              required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="addContactFormLastName">
@@ -133,16 +144,25 @@ function AddContact({ onAddClick, onCancelClick }) {
             </div>
           )}
 
-          {(contactAddSuccess === true && companyAddSuccess === false) ||
-            (contactAddSuccess === false && companyAddSuccess === true && (
-              <div>
-                <AlertPartialSuccess
-                  message="Partial"
-                  apiMessage={contactCompanyPostResponseMessage}
-                  hideAlertCallback={setContactAddSuccess}
-                ></AlertPartialSuccess>
-              </div>
-            ))}
+          {contactAddSuccess === true && companyAddSuccess === false && (
+            <div>
+              <AlertPartialSuccess
+                message="Partial"
+                apiMessage={contactCompanyPostResponseMessage}
+                hideAlertCallback={setContactAddSuccess}
+              ></AlertPartialSuccess>
+            </div>
+          )}
+
+          {contactAddSuccess === false && companyAddSuccess === true && (
+            <div>
+              <AlertPartialSuccess
+                message="Partial"
+                apiMessage={contactCompanyPostResponseMessage}
+                hideAlertCallback={setContactAddSuccess}
+              ></AlertPartialSuccess>
+            </div>
+          )}
 
           {contactAddSuccess === false && companyAddSuccess === false && (
             <div>
@@ -161,7 +181,7 @@ function AddContact({ onAddClick, onCancelClick }) {
             onClick={() => {
               buildContactCompanyPost();
             }}
-            >
+          >
             Add
           </Button>
 
