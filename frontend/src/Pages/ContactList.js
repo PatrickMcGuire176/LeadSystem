@@ -3,11 +3,15 @@ import { useGlobalFilter } from "react-table";
 //import Navbar from "../Components/Navbar";
 import { Col, Row, Table, Button, InputGroup, Form, Pagination } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import AddContact from "../Components/AddContact";
-import axios from "axios";
+import ChatBox from "../Components/ChatBox";
+import ChatWebSocket from "../Services/ChatWebSocket";
+
 import { getAllContacts } from "../api/api";
 import ArrowPointingRight from "../Assets/Icons/ArrowPointingRight.png";
 import ArrowPointingLeft from "../Assets/Icons/ArrowPointingLeft.png";
+
 
 function ContactList() {
   const [dataPaginationValue, setDataPaginationValue] = useState(0);
@@ -117,6 +121,7 @@ function ContactList() {
       >
         Hi!
       </Button>
+      <ChatWebSocket></ChatWebSocket>
       <div className="container-xl">
         <Row>
           <h1 style={{ marginBottom: "20px" }}>LeadSystem</h1>

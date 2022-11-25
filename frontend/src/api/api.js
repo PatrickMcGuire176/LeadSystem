@@ -11,7 +11,6 @@ export async function getAllContacts() {
 
 export async function getUserPassword(email){
   return axios.get(REACT_APP_API_BASE_URL + 'api/v1/user/login/' + email)
-  // return axios.get('http://localhost:8080/api/v1/user/login/' + email)
         .then((response) => {
           return response;
         })
@@ -30,18 +29,25 @@ export async function addContactCompany(firstName, lastName, email, companyName,
       notes,
     },
   })
-  // .then((response)=>{
-  //     console.log(response.data);
-  //     console.log(response.status);
-  //     console.log(response.statusText);
-  //     console.log(response.config);
-  //     console.log(response.headers);
-  //   })
   .then((response) => {
     return response;
   })
-  // .then((response) => {
-  //   return response.headers;
-  // })
     .catch((error) => console.log(error));
 };
+
+
+export const chatAPI = {
+  getMessages: (groupId) => {
+      console.log('Calling get messages from API');
+      return axios.get(`messages/${groupId}`);
+  },
+
+  sendMessage: (username, text) => {
+      let msg = {
+          sender: username,
+          content: text
+      }
+      return axios.post(REACT_APP_API_BASE_URL + 'kafka/api/send', msg);
+  }
+}
+
