@@ -1,23 +1,27 @@
 import React, { Fragment, useEffect, useCallback, useState } from "react";
-import { useGlobalFilter } from "react-table";
-//import Navbar from "../Components/Navbar";
-import { Col, Row, Table, Button, InputGroup, Form, Pagination } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Table,
+  Button,
+  InputGroup,
+  Form
+} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import AddContact from "../Components/AddContact";
-import ChatBox from "../Components/ChatBox";
 import ChatWebSocket from "../Services/ChatWebSocket";
 
 import { getAllContacts } from "../api/api";
 import ArrowPointingRight from "../Assets/Icons/ArrowPointingRight.png";
 import ArrowPointingLeft from "../Assets/Icons/ArrowPointingLeft.png";
-
+import ChatIcon from "../Assets/Icons/chat.png";
 
 function ContactList() {
   const [dataPaginationValue, setDataPaginationValue] = useState(0);
   const [data, setData] = useState([]);
   const [addContactForm, setAddContactForm] = useState(false);
-  const [dataChanged, setDataChanged] = useState(null);
+  const [chat, setChat] = useState(false);
 
   // Search Filter States
   const [searchedVal, setSearchedVal] = useState("");
@@ -45,86 +49,82 @@ function ContactList() {
     setAddContactForm((current) => !current);
   };
 
+  const toggleChat = () => {
+    setChat((current) => !current);
+  };
+
   const renderTableData = () => {
-    {
       return data
         .filter(
-          (row) =>            
+          (row) =>
             row.contact.email
-            .toString()
-            .toLowerCase()          
-            .includes(searchedVal.toString().toLowerCase())
-            &&
+              .toString()
+              .toLowerCase()
+              .includes(searchedVal.toString().toLowerCase()) &&
             row.contact.firstName
               .toString()
               .toLowerCase()
-              .includes(searchedFirstNameVal.toString().toLowerCase())
-            &&
+              .includes(searchedFirstNameVal.toString().toLowerCase()) &&
             row.contact.lastName
               .toString()
               .toLowerCase()
-              .includes(searchedLastNameVal.toString().toLowerCase())
-            &&
+              .includes(searchedLastNameVal.toString().toLowerCase()) &&
             row.contact.email
               .toString()
-              .toLowerCase()          
-              .includes(searchedEmailVal.toString().toLowerCase())
-            &&
+              .toLowerCase()
+              .includes(searchedEmailVal.toString().toLowerCase()) &&
             row.company.name
               .toString()
               .toLowerCase()
-              .includes(searchedCompanyVal.toString().toLowerCase())
-            &&
+              .includes(searchedCompanyVal.toString().toLowerCase()) &&
             row.status
               .toString()
               .toLowerCase()
-              .includes(searchedStatusVal.toString().toLowerCase())            
+              .includes(searchedStatusVal.toString().toLowerCase())
         )
-        
         .slice(dataPaginationValue, dataPaginationValue + 20)
         .map((val) => (
-          <tr 
-            key={val.id} 
+          <tr
+            key={val.id}
             rowid={val.id}
-            onClick={() => 
-              {
-                setAddContactForm(true)
-                setRowFirstName(val.contact.firstName)
-                setRowLastName(val.contact.lastName)
-                setRowEmail(val.contact.email)
-                setRowCompany(val.company.name)              
-              }}
-            >
-              <td>{val.contact.firstName}</td>
-              <td>{val.contact.lastName}</td>
-              <td>{val.contact.email}</td>
-              <td>{val.company.name}</td>
-              <td>{val.status.toString()}</td>
+            onClick={() => {
+              setAddContactForm(true);
+              setRowFirstName(val.contact.firstName);
+              setRowLastName(val.contact.lastName);
+              setRowEmail(val.contact.email);
+              setRowCompany(val.company.name);
+            }}
+          >
+            <td>{val.contact.firstName}</td>
+            <td>{val.contact.lastName}</td>
+            <td>{val.contact.email}</td>
+            <td>{val.company.name}</td>
+            <td>{val.status.toString()}</td>
           </tr>
         ));
-    }
   };
 
-  function dataChangedMethod() {
-    setDataChanged((current) => !current);
-  }
-
   return (
-    <div id="root">
-      {/* <div className="container-sm">
-        <Navbar/>
-      </div> */}
-      <Button
-        onClick={() => {
-          console.log(dataPaginationValue);
-        }}
-      >
-        Hi!
-      </Button>
-      <ChatWebSocket></ChatWebSocket>
-      <div className="container-xl">
-        <Row>
-          <h1 style={{ marginBottom: "20px" }}>LeadSystem</h1>
+      <div style={{marginTop:"30px"}}className="container-xl">
+        <Row style={{ marginBottom: "20px" }}>
+          <Col>
+            <h1>LeadSystem</h1>
+          </Col>
+          <Col>
+            <img
+              src={ChatIcon}
+              alt="chat"
+              style={{ float:"right", width: "50px", height: "50px", cursor: "pointer" }}
+              onClick={() => toggleChat()}
+            />
+          </Col>
+          {chat === true && (
+            <Fragment>
+              <Col>
+                <ChatWebSocket></ChatWebSocket>
+              </Col>
+            </Fragment>
+          )}
         </Row>
         <Row style={{ marginBottom: "20px" }}>
           <Col>
@@ -159,10 +159,10 @@ function ContactList() {
                     <br />
                     <InputGroup>
                       <Form.Control
-                        aria-describedby="basic-addon2"                        
+                        aria-describedby="basic-addon2"
                         onChange={(e) => {
-                          setSearchedFirstNameVal(e.target.value)
-                          setDataPaginationValue(0)
+                          setSearchedFirstNameVal(e.target.value);
+                          setDataPaginationValue(0);
                         }}
                       />
                     </InputGroup>
@@ -174,8 +174,8 @@ function ContactList() {
                       <Form.Control
                         aria-describedby="basic-addon2"
                         onChange={(e) => {
-                          setSearchedLastNameVal(e.target.value)
-                          setDataPaginationValue(0)
+                          setSearchedLastNameVal(e.target.value);
+                          setDataPaginationValue(0);
                         }}
                       />
                     </InputGroup>
@@ -187,8 +187,8 @@ function ContactList() {
                       <Form.Control
                         aria-describedby="basic-addon2"
                         onChange={(e) => {
-                          setSearchedEmailVal(e.target.value)
-                          setDataPaginationValue(0)
+                          setSearchedEmailVal(e.target.value);
+                          setDataPaginationValue(0);
                         }}
                       />
                     </InputGroup>
@@ -200,8 +200,8 @@ function ContactList() {
                       <Form.Control
                         aria-describedby="basic-addon2"
                         onChange={(e) => {
-                          setSearchedCompanyVal(e.target.value)
-                          setDataPaginationValue(0)
+                          setSearchedCompanyVal(e.target.value);
+                          setDataPaginationValue(0);
                         }}
                       />
                     </InputGroup>
@@ -213,17 +213,15 @@ function ContactList() {
                       <Form.Control
                         aria-describedby="basic-addon2"
                         onChange={(e) => {
-                          setSearchedStatusVal(e.target.value)
-                          setDataPaginationValue(0)
+                          setSearchedStatusVal(e.target.value);
+                          setDataPaginationValue(0);
                         }}
                       />
                     </InputGroup>
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                {renderTableData()}
-              </tbody>
+              <tbody>{renderTableData()}</tbody>
             </Table>
           </Col>
           {addContactForm === true && (
@@ -241,7 +239,7 @@ function ContactList() {
               </Col>
             </Fragment>
           )}
-        </Row>        
+        </Row>
         <Row>
           <Col></Col>
           <Col className="text-center" style={{}}>
@@ -263,7 +261,6 @@ function ContactList() {
           <Col></Col>
         </Row>
       </div>
-    </div>
   );
 }
 export default ContactList;

@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button} from "react-bootstrap";
 import { getUserPassword } from "../api/api";
-
-import axios from "axios";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Login() {
@@ -31,20 +28,9 @@ function Login() {
       }
     )};
 
-  // const LoginUser = () => {
-  //   axios.get('http://localhost:8080/api/v1/user/login/' + email).then(res=> {
-  //       if(res.data===password){
-  //         console.log("success")
-  //         navigate("/ContactList");
-  //       } else {
-  //         console.log("Wrong");
-  //       }
-  //     }
-  //   )};
 
   return (
     <div id="root" className="LoginStyling">
-
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="email">
           <Form.Label>Email</Form.Label>

@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
-// import {addContactCompany,getAllContacts} from "../api/api";
-// import { updateTableData } from "../Pages/ContactList"
 import { addContactCompany } from "../api/api";
 import {
   AlertFullSuccess,
@@ -9,7 +7,7 @@ import {
   AlertPartialSuccess,
 } from "../Components/Alert";
 
-function AddContact({ onAddClick, onCancelClick, updateTableDataProp, passedFirstName, passedLastName, passedEmail, passedCompany}) {
+function AddContact({onCancelClick, updateTableDataProp, passedFirstName, passedLastName, passedEmail, passedCompany}) {
   const [firstName, setFirstName] = useState(passedFirstName);
   const [lastName, setLastName] = useState(passedLastName);
   const [email, setEmail] = useState(passedEmail);
@@ -44,16 +42,16 @@ function AddContact({ onAddClick, onCancelClick, updateTableDataProp, passedFirs
       companyName,
       notes
     ).then((response) => {
-      if (response.headers.company == "Added") {
+      if (response.headers.company === "Added") {
         setCompanyAddSuccess(true);
       }
-      if (response.headers.contact == "Added") {
+      if (response.headers.contact === "Added") {
         setContactAddSuccess(true);
       }
-      if (response.headers.company == "Not Added") {
+      if (response.headers.company === "Not Added") {
         setCompanyAddSuccess(false);
       }
-      if (response.headers.contact == "Not Added") {
+      if (response.headers.contact === "Not Added") {
         setContactAddSuccess(false);
       }
       setContactCompanyPostResponseMessage(response.data);
@@ -61,24 +59,6 @@ function AddContact({ onAddClick, onCancelClick, updateTableDataProp, passedFirs
       updateTableDataProp();
     });
   };
-
-  const toggleAlertMethod = () => {
-    setToggleAlert((current) => !current);
-  };
-
-  const wrapperMethod = () => {
-    buildContactCompanyPost();
-    onAddClick();
-  };
-
-  const closeContactAlert = useCallback(() => {
-    setContactAddSuccess(null);
-  });
-
-  const closeCompanyAlert = useCallback(() => {
-    setCompanyAddSuccess(null);
-  });
-
   return (
     <div>
       <Form id="AddContactForm">
@@ -177,7 +157,6 @@ function AddContact({ onAddClick, onCancelClick, updateTableDataProp, passedFirs
           <Button
             style={{ marginLeft: "10px" }}
             variant="success"
-            // onClick={wrapperMethod()}>
             onClick={() => {
               buildContactCompanyPost();
             }}

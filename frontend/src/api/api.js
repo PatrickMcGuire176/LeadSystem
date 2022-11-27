@@ -47,6 +47,7 @@ export const chatAPI = {
           sender: username,
           content: text
       }
+      console.log("api called");
       return axios.post(REACT_APP_API_BASE_URL + 'kafka/api/send', msg);
   }
 }

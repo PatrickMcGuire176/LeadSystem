@@ -1,45 +1,63 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 
-const Input = ({ onSendMessage }) => {
+const Input = ({ onSendMessage, passedMessages }) => {
   const [text, setText] = useState("");
 
-  let onChange = (e) => {
+  const onChange = (e) => {
     setText(e.target.value);
   };
 
-  let onSubmit = () => {
+  const onSubmit = () => {
     setText("");
     onSendMessage(text);
   };
 
+  //Prevents page from refreshing
+  const formSubmit = event => {
+    event.preventDefault();
+  };
+
   return (
     <div className="message-input">
-      <Form id="AddContactForm">
-        <fieldset>
-          <Form.Group className="mb-3" controlId="Chat">
-            <Form.Label className="required">First Name</Form.Label>
-            <Form.Control            
-              type="input"
-              value={text}
-              label="Type your message here..."
-              placeholder="Enter your message and press ENTER"
-              required
-              style={{ height: "30px", width: "80%" }}
-
-              onChange={(e) => onChange(e)}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  onSubmit(text);
-                }
-              }}
-            />
-          </Form.Group>
-        </fieldset>
+      <Form onSubmit={formSubmit}>
+        <Form.Group
+          className="mb-3"      
+          controlId="exampleForm.ControlTextarea1"
+        >
+          <Form.Control
+           as="textarea" 
+           rows={3}
+           value={passedMessages}/>
+        </Form.Group>
+        <Row>
+          <Col>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="input"          
+                placeholder="Enter a message"
+                value={text}
+                onChange={(e) => onChange(e)}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    onSubmit(text);
+                  }
+                }}
+              />
+            </Form.Group>
+          </Col>
+          <Col className="col-2">
+            <Button
+              className="ms-auto float-end"
+              variant="primary"
+              size="md"
+              onClick={onSubmit}
+            >
+              Send
+            </Button>
+          </Col>
+        </Row>
       </Form>
-      <Button variant="contained" color="primary" onClick={onSubmit}>
-        Send
-      </Button>
     </div>
   );
 };
